@@ -3,6 +3,7 @@
 #include <iostream>
 #include "stb_image.h"
 //dadasdasdasdsad
+//main 修改
 void processInput(GLFWwindow *window)//检查用户是否按下了返回键(Esc)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)//若按下Esc,则置ShouldClose为true
