@@ -1,10 +1,4 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "stb_image.h"
+#include "main.h"
 
 void processInput(GLFWwindow *window)//检查用户是否按下了返回键(Esc)
 {
@@ -51,6 +45,9 @@ float vertices[] = {
 		0, 1, 3, // 第一个三角形
 		1, 2, 3  // 第二个三角形
 	};
+	/*创建一个着色器对象*/
+	Shader ourShader("./shaders/shader.vs", "./shaders/shader.fs");
+
 	unsigned int VBO,VAO,EBO;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -115,64 +112,12 @@ float vertices[] = {
 	}
 	stbi_image_free(data2);//纹理生成了,就可以释放掉data2了
 
-	/*着色器*/
-	/*顶点着色器源码*/
-	const char *vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"   //location=0 是对属性的编号(这里是顶点坐标属性)
-		"layout (location = 1) in vec3 aColor;\n"//颜色
-		"layout (location = 2) in vec2 aTexCoord;\n"//纹理
-		"out vec3 ourColor;\n"
-		"out vec2 TexCoord;\n"
-		"uniform mat4 transform;\n"
-		"void main()\n"
-		"{\n"
-		"	ourColor=aColor;\n"
-		"	TexCoord=vec2(aTexCoord.x, 1-aTexCoord.y);\n"
-		"   gl_Position = transform*vec4(aPos, 1.0);\n"
-		"}\0";
-	/*创建着色器对象*/
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	/*着色器源码附加到着色器对象*/
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	/*编译着色器*/
-	glCompileShader(vertexShader);
 
-	/*片段着色器源码*/
-	const char *fragmentShaderSource="#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"in vec3 ourColor;\n"
-		"in vec2 TexCoord;\n"
-		"uniform sampler2D ourTexture1;\n"
-		"uniform sampler2D ourTexture2;\n"
-		"void main()\n"
-		"{\n"
-		//"	FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
-		"	FragColor = mix(texture(ourTexture1, TexCoord), texture(ourTexture2, TexCoord), 0.2);\n"
-		"}\0";
-	/*创建片段着色器*/
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	/*着色器源码附加到着色器对象*/
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	/*编译着色器*/
-	glCompileShader(fragmentShader);
-	/*创建着色器程序对象*/
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-	/*着色器附加到程序对象*/
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	/*顶点和片段着色器进行链接*/
-	glLinkProgram(shaderProgram);
-	/*着色器程序创建成功之后需要清除着色器对象*/
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	glUseProgram(shaderProgram);
-	glUniform1i(glGetUniformLocation(shaderProgram, "ourTexture1"), 0); //将纹理单元0传递给着色器
-	glUniform1i(glGetUniformLocation(shaderProgram, "ourTexture2"), 1); //将纹理单元1传递给着色器
-
+	/*激活着色器*/
+	 ourShader.use();
+	 
+	 ourShader.setInt("ourTexture1", 0); //将纹理单元0传递给着色器
+	 ourShader.setInt("ourTexture2", 1); //将纹理单元1传递给着色器
 
 
 	/*链接顶点属性*/
@@ -202,10 +147,9 @@ float vertices[] = {
 		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 		
-		
-		glUseProgram(shaderProgram);
+		ourShader.use();
 		/*设置变换矩阵*/
-		unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 		glBindVertexArray(VAO);
