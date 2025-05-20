@@ -1,9 +1,9 @@
-src/main.o: src/main.cpp include/glad/glad.h include/KHR/khrplatform.h \
- include/GLFW/glfw3.h include/glm/glm.hpp include/glm/detail/_fixes.hpp \
- include/glm/detail/setup.hpp include/glm/detail/../simd/platform.h \
- include/glm/fwd.hpp include/glm/detail/qualifier.hpp \
- include/glm/detail/setup.hpp include/glm/vec2.hpp \
- include/glm/./ext/vector_bool2.hpp \
+src/main.o: src/main.cpp src/main.h include/glad/glad.h \
+ include/KHR/khrplatform.h include/GLFW/glfw3.h include/glm/glm.hpp \
+ include/glm/detail/_fixes.hpp include/glm/detail/setup.hpp \
+ include/glm/detail/../simd/platform.h include/glm/fwd.hpp \
+ include/glm/detail/qualifier.hpp include/glm/detail/setup.hpp \
+ include/glm/vec2.hpp include/glm/./ext/vector_bool2.hpp \
  include/glm/./ext/../detail/type_vec2.hpp \
  include/glm/./ext/../detail/type_vec2.inl \
  include/glm/./ext/../detail/./compute_vector_relational.hpp \
@@ -173,4 +173,4 @@ src/main.o: src/main.cpp include/glad/glad.h include/KHR/khrplatform.h \
  include/glm/gtc/../gtc/../ext/vector_int1_sized.hpp \
  include/glm/gtc/../gtc/../ext/vector_uint1.hpp \
  include/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
- include/glm/gtc/type_ptr.inl include/stb_image.h
+ include/glm/gtc/type_ptr.inl include/stb_image.h include/shader.h
