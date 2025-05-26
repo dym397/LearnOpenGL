@@ -4,5 +4,12 @@
         "string": "cpp",
         "sstream": "cpp",
         "iosfwd": "cpp"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "d:\\OpenGL\\LearnOpenGL\\output",
+            "binaryPath": "d:\\OpenGL\\LearnOpenGL\\output\\main.exe",
+            "binaryArgs": []
+        }
+    ]
 }
