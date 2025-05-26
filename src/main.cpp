@@ -1,10 +1,5 @@
 #include "main.h"
-
-//添加注释1
-//添加注释2
-//在github上进行的修改，测试git pull
-//测试request pull
-//测试vscode上request pull功能
+//  5/26再次练习冲突
 void processInput(GLFWwindow *window)//检查用户是否按下了返回键(Esc)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)//若按下Esc,则置ShouldClose为true
